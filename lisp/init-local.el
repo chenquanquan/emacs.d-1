@@ -38,6 +38,16 @@
 ;;
 (require 'highlight-parentheses)
 (global-highlight-parentheses-mode)
+;;
+;; For C source
+;;
+(add-hook 'c-mode-hook '(lambda () (c-set-style "cc-mode")))
+(add-hook 'c++-mode-hook '(lambda () (c-set-style "cc-mode")))
+(add-hook 'c-mode-hook '(lambda () (electric-pair-mode t)))
+(add-hook 'c++-mode-hook '(lambda () (electric-pair-mode t)))
+
+;; Remove trailing whitespace between start and end
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;;
 ;; Pyim
@@ -111,5 +121,18 @@
 (push 'company-rtags company-backends)
 (global-company-mode)
 (define-key c-mode-base-map (kbd "<C-tab>") (function company-complete))
+
+;;
+;; For cscope
+;;
+(require 'xcscope)
+(add-hook 'c-mode-hook '(lambda () (cscope-setup)))
+(add-hook 'c++-mode-hook '(lambda () (cscope-setup)))
+
+;;
+;; For themes
+;;
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+(load-theme 'sanityinc-solarized-dark-chen)
 
 (provide 'init-local)
